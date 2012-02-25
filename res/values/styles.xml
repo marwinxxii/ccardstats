@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CardListActivity">
+        <item name="android:padding">10dp</item>
+    </style>
+    <style name="CardListItem">
+        <item name="android:padding">5dp</item>
+    </style>
+    <style name="CardListTitle">
+        <item name="android:textSize">30sp</item>
+    </style>
+    <style name="CardName">
+        <item name="android:textSize">25sp</item>
+    </style>
+    <style name="CardInfo">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="CardAvailable" parent="@style/CardInfo">
+        <item name="android:textColor">#00AF00</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="CardIncome" parent="@style/CardInfo">
+        <item name="android:textColor">#00AF00</item>
+    </style>
+    <style name="CardOutcome" parent="@style/CardInfo">
+        <item name="android:textColor">#bf0000</item>
+    </style>
+</resources>
