@@ -7,9 +7,9 @@
     <string name="read_sms_dialog_message">Searching for SMS notifications</string>
     
     <string name="cards_list_cards">Your cards</string>
-    <string name="card_item_available">Available:</string>
     <string name="card_item_total">Total:</string>
-    <string name="card_item_income">+%.2f</string>
-    <string name="card_item_outcome">-%.2f</string>
+    <string name="card_item_month">Month:</string>
+    <string name="card_item_today">Today:</string>
+    <string name="card_item_available">Available:</string>
 
 </resources>

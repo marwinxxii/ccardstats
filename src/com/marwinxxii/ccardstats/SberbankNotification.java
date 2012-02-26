@@ -26,8 +26,10 @@ public class SberbankNotification implements SmsNotification {
     }
 
     public double getAmount() {
-        double result = removeCurrency(fields[AMOUNT_INDEX].replace("Summa:", ""));
-        if (getType().equals(" Popolnenie scheta")) return result;
+        double result = removeCurrency(fields[AMOUNT_INDEX].replace("Summa:",
+                ""));
+        if (getType().equals(" Popolnenie scheta"))
+            return result;
         return -result;
     }
 
@@ -38,9 +40,10 @@ public class SberbankNotification implements SmsNotification {
     }
 
     public double getAvailable() {
-        return removeCurrency(fields[fields.length - 1].replace("Dostupno:", ""));
+        return removeCurrency(fields[fields.length - 1]
+                .replace("Dostupno:", ""));
     }
-    
+
     public long getDate() {
         return DateHelper.parseSberbankDate(fields[fields.length - 2]);
     }
@@ -48,6 +51,12 @@ public class SberbankNotification implements SmsNotification {
     private static double removeCurrency(String number) {
         int curStart = number.indexOf('.') + 2;
         return Double.valueOf(number.substring(0, curStart));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s:%s=%.2f/%.2f", fields[fields.length - 2],
+                fields[CARD_INDEX], getAmount(), getAvailable());
     }
 
 }

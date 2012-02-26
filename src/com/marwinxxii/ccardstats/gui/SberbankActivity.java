@@ -1,8 +1,9 @@
-package com.marwinxxii.ccardstats;
+package com.marwinxxii.ccardstats.gui;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
+import com.marwinxxii.ccardstats.SmsReader;
 import com.marwinxxii.sberbank.R;
 
 import android.app.Activity;
