@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.marwinxxii.ccardstats.CardInfo;
 import com.marwinxxii.ccardstats.DatabaseHelper;
 import com.marwinxxii.ccardstats.SmsNotificationReader;
-import com.marwinxxii.sberbank.R;
+import com.marwinxxii.ccardstats.R;
 
 import android.app.Activity;
 import android.app.Dialog;

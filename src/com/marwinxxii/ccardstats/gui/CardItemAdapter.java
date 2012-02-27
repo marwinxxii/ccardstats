@@ -3,7 +3,7 @@ package com.marwinxxii.ccardstats.gui;
 import java.util.List;
 
 import com.marwinxxii.ccardstats.CardInfo;
-import com.marwinxxii.sberbank.R;
+import com.marwinxxii.ccardstats.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;
