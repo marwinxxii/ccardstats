@@ -20,13 +20,13 @@ public class SmsNotificationReader extends SmsReader {
 
     static {
         SERVICES = new NotificationService[] { new SberbankService() };
-        
+
         SERVICE_ADRESSES = new HashSet<String>();
         for (NotificationService ns : SERVICES) {
             SERVICE_ADRESSES.add(ns.getAddress());
         }
         SERVICE_ADRESSES_ARR = new String[SERVICE_ADRESSES.size()];
-        SERVICE_ADRESSES_ARR=SERVICE_ADRESSES.toArray(SERVICE_ADRESSES_ARR);
+        SERVICE_ADRESSES_ARR = SERVICE_ADRESSES.toArray(SERVICE_ADRESSES_ARR);
     }
 
     public static SmsNotificationReader getReader(Context context) {
@@ -55,10 +55,11 @@ public class SmsNotificationReader extends SmsReader {
         mCursor.close();
         return null;
     }
-    
+
     public static SmsNotification parse(SmsMessage message) {
         String address = message.getOriginatingAddress();
-        if (address != null && !SERVICE_ADRESSES.contains(address)) return null;
+        if (address != null && !SERVICE_ADRESSES.contains(address))
+            return null;
         String body = message.getDisplayMessageBody();
         for (NotificationService ns : SERVICES) {
             try {

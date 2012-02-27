@@ -11,11 +11,12 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-        if (bundle == null) return;
+        if (bundle == null)
+            return;
         Object[] pdus = (Object[]) bundle.get("pdus");
         DatabaseHelper helper = new DatabaseHelper(context);
-        for (int i=0; i<pdus.length; i++){
-            SmsMessage sms = SmsMessage.createFromPdu((byte[])pdus[i]);
+        for (int i = 0; i < pdus.length; i++) {
+            SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdus[i]);
             SmsNotification notif = SmsNotificationReader.parse(sms);
             if (notif != null) {
                 helper.updateCard(notif);

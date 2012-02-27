@@ -6,11 +6,11 @@ public class CardInfo {
     public double monthIncome, monthOutcome;
     public double todayIncome, todayOutcome;
 
-    public CardInfo(Card c, double monthIn, double monthOut,
-            double todayIn, double todayOut) {
+    public CardInfo(Card c, double monthIn, double monthOut, double todayIn,
+            double todayOut) {
         this.card = c;
         this.monthIncome = monthIn;
-        this.monthOutcome=monthOut;
+        this.monthOutcome = monthOut;
         this.todayIncome = todayIn;
         this.todayOutcome = todayOut;
     }
@@ -33,7 +33,9 @@ public class CardInfo {
 
     @Override
     public String toString() {
-        return card + String.format("(month=(+%.2f;-%.2f);today=(+%.2f;-%.2f))",
-                card, monthIncome, monthOutcome, todayIncome, todayOutcome);
+        return card
+                + String.format("(month=(+%.2f;-%.2f);today=(+%.2f;-%.2f))",
+                        card, monthIncome, monthOutcome, todayIncome,
+                        todayOutcome);
     }
 }

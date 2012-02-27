@@ -45,11 +45,11 @@ public abstract class DateHelper {
     public static boolean isToday(long date) {
         return date >= today && date < tomorrow;
     }
-    
+
     public static long getToday() {
         return today;
     }
-    
+
     public static long getTomorrow() {
         return tomorrow;
     }
