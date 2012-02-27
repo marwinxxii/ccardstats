@@ -3,6 +3,7 @@ package com.marwinxxii.ccardstats;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -89,6 +90,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(CARDS_INCOME, card.getIncome());
         values.put(CARDS_OUTCOME, card.getOutcome());
         return db.insert(CARDS_TABLE, null, values);
+    }
+    
+    public void updateCard(SmsNotification notif) {
+        init();
+        db.beginTransaction();
+        String amountField = "%s=%s%c%f";
+        if (notif.getAmount() > 0) {
+            amountField = String.format(Locale.US, amountField, CARDS_INCOME,CARDS_INCOME,
+                    '+', notif.getAmount());
+        } else {
+            amountField=String.format(Locale.US,amountField, CARDS_OUTCOME,CARDS_OUTCOME,
+                    '-', -notif.getAmount());
+        }
+        String query = String.format(Locale.US,
+                "update %s set %s=%f, %s where %s='%s'",
+                CARDS_TABLE, CARDS_AVAILABLE,notif.getAvailable(),
+                amountField, CARDS_NAME, notif.getCard());
+        db.execSQL(query);
+        insertNotification(notif);
+        db.endTransaction();
     }
 
     public ArrayList<Card> getCards() {

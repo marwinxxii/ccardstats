@@ -20,8 +20,8 @@ public abstract class DateHelper {
         firstDayOfMonth = temp.getTimeInMillis();
         temp.add(Calendar.MONTH, 1);
         firstDayOfNextMonth = temp.getTimeInMillis();
-        temp.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
         temp.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+        temp.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
         today = temp.getTimeInMillis();
         temp.add(Calendar.DAY_OF_MONTH, 1);
         tomorrow = temp.getTimeInMillis();
