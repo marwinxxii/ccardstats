@@ -1,5 +1,8 @@
 package com.marwinxxii.ccardstats;
 
+import com.marwinxxii.ccardstats.notifications.SmsNotification;
+import com.marwinxxii.ccardstats.notifications.SmsNotificationReader;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

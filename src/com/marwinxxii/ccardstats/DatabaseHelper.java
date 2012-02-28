@@ -5,6 +5,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 
+import com.marwinxxii.ccardstats.helpers.DateHelper;
+import com.marwinxxii.ccardstats.notifications.SmsNotification;
+import com.marwinxxii.ccardstats.notifications.SmsNotificationReader;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

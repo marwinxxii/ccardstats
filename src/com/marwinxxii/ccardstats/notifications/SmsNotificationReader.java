@@ -1,4 +1,4 @@
-package com.marwinxxii.ccardstats;
+package com.marwinxxii.ccardstats.notifications;
 
 import java.util.HashSet;
 

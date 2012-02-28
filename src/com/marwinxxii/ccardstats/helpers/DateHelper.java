@@ -1,4 +1,4 @@
-package com.marwinxxii.ccardstats;
+package com.marwinxxii.ccardstats.helpers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

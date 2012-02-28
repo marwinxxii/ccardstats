@@ -1,4 +1,4 @@
-package com.marwinxxii.ccardstats;
+package com.marwinxxii.ccardstats.notifications;
 
 import android.content.ContentResolver;
 import android.content.Context;

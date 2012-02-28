@@ -3,8 +3,8 @@ package com.marwinxxii.ccardstats.gui;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import com.marwinxxii.ccardstats.SmsReader;
 import com.marwinxxii.ccardstats.R;
+import com.marwinxxii.ccardstats.notifications.SmsReader;
 
 import android.app.Activity;
 import android.content.Context;

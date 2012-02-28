@@ -1,4 +1,6 @@
-package com.marwinxxii.ccardstats;
+package com.marwinxxii.ccardstats.notifications;
+
+import com.marwinxxii.ccardstats.helpers.DateHelper;
 
 public class SberbankNotification implements SmsNotification {
 
