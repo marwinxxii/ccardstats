@@ -64,8 +64,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void close() {
-        db.close();
-        db = null;
+        if (db != null) {
+            db.close();
+            db = null;
+        }
     }
 
     public void init() {
@@ -182,20 +184,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor2.close();
             result.add(new CardInfo(c, monthIn, monthOut, todayIn, todayOut));
         }
-        cursor.close();
-        return result;
-    }
-
-    public double getMonth(String card, boolean income) {
-        init();
-        String query;
-        if (income) {
-            query = "select sum(diff) where diff>0 and card=?";
-        } else {
-            query = "select sum(diff) where diff<0 and card=?";
-        }
-        Cursor cursor = db.rawQuery(query, new String[] { card });
-        double result = cursor.getDouble(0);
         cursor.close();
         return result;
     }
