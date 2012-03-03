@@ -1,7 +1,9 @@
 package com.marwinxxii.ccardstats;
 
+import com.marwinxxii.ccardstats.db.DBHelper;
+import com.marwinxxii.ccardstats.gui.CardListActivity;
 import com.marwinxxii.ccardstats.notifications.SmsNotification;
-import com.marwinxxii.ccardstats.notifications.SmsNotificationReader;
+import com.marwinxxii.ccardstats.notifications.SmsParser;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,15 +19,18 @@ public class SmsReceiver extends BroadcastReceiver {
         if (bundle == null)
             return;
         Object[] pdus = (Object[]) bundle.get("pdus");
-        DatabaseHelper helper = new DatabaseHelper(context);
+        DBHelper helper = new DBHelper(context);
         for (int i = 0; i < pdus.length; i++) {
             SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdus[i]);
-            SmsNotification notif = SmsNotificationReader.parse(sms);
+            SmsNotification notif = SmsParser.parse(
+                    sms.getDisplayMessageBody(), sms.getOriginatingAddress());
             if (notif != null) {
-                helper.updateCard(notif);
+                helper.saveCard(notif.card, notif.card, notif.balance);
+                helper.addNotification(notif);
             }
         }
         helper.close();
+        CardListActivity.prepareCardsInfo(helper, helper.getCards());
     }
 
 }

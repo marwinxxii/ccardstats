@@ -1,7 +1,11 @@
 package com.marwinxxii.ccardstats.notifications;
 
 public interface NotificationService {
-    String getAddress();
 
-    SmsNotification parse(String body) throws IllegalArgumentException;
+    public static final NotificationService[] SERVICES = { new SberbankService() };
+
+    public String getAddress();
+
+    public SmsNotification recognise(String body)
+            throws IllegalArgumentException;
 }

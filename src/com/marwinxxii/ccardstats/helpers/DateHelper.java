@@ -3,6 +3,7 @@ package com.marwinxxii.ccardstats.helpers;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public abstract class DateHelper {
@@ -13,6 +14,8 @@ public abstract class DateHelper {
             "dd.MM.yy HH:mm");
     private static long firstDayOfMonth, firstDayOfNextMonth;
     private static long today, tomorrow;
+    public static int year, month, day;
+    public static Date Today;
 
     static {
         GregorianCalendar temp = new GregorianCalendar(
@@ -25,6 +28,10 @@ public abstract class DateHelper {
         today = temp.getTimeInMillis();
         temp.add(Calendar.DAY_OF_MONTH, 1);
         tomorrow = temp.getTimeInMillis();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        Today = calendar.getTime();
     }
 
     public static long parseSberbankDate(String date) {

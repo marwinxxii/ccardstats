@@ -1,12 +1,21 @@
 package com.marwinxxii.ccardstats.notifications;
 
-public interface SmsNotification {
-    String getCard();
+public class SmsNotification {
 
-    double getAmount();
+    public String card;
+    public double diff;
+    public double balance;
+    public int year;
+    public int month;
+    public int day;
 
-    // String getCurrency();
-    long getDate();
-
-    double getAvailable();
+    public SmsNotification(String card, double diff, double balance, int year,
+            int month, int day) {
+        this.card = card;
+        this.diff = diff;
+        this.balance = balance;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
 }
