@@ -20,6 +20,7 @@ public class SberbankService implements NotificationService {
     @Override
     public String getAddress() {
         return "900";
+        // return "+79215677256";
     }
 
     @Override
@@ -27,12 +28,12 @@ public class SberbankService implements NotificationService {
             throws IllegalArgumentException {
         if (body.indexOf(';') == -1)
             throw EXCEPTION;
-        String[] fields = body.split(";");
+        String[] fields = body.toLowerCase().split(";");
         Date date = parseDate(fields[fields.length - 2]);
         double balance = removeCurrency(fields[fields.length - 1].replace(
-                "Dostupno:", ""));
-        double diff = removeCurrency(fields[INDEX_AMOUNT].replace("Summa:", ""));
-        if (!fields[INDEX_OPERATION].equals(" Popolnenie scheta")) {
+                "dostupno:", ""));
+        double diff = removeCurrency(fields[INDEX_AMOUNT].replace("summa:", ""));
+        if (!fields[INDEX_OPERATION].trim().equals("popolnenie scheta")) {
             diff = -diff;
         }
         return new SmsNotification(fields[INDEX_CARD], diff, balance,
@@ -40,8 +41,8 @@ public class SberbankService implements NotificationService {
     }
 
     public static Date parseDate(String date) {
-        if (date.indexOf("MSK") != -1) {
-            date = date.replace("MSK", "");
+        if (date.indexOf("msk") != -1) {
+            date = date.replace("msk", "");
         }
         date = date.trim();
         try {

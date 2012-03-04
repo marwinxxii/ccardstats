@@ -21,10 +21,10 @@ public class DBHelper extends SQLiteOpenHelper {
                     + " balance real not null)";
     private static String STATS_QUERY =
             "create table stats (card text not null, date integer not null, "
-            + "ismonthly integer not null, "
-            + "income real not null, outcome real not null, "
-            + "primary key(card asc, date desc) "
-            + "foreign key (card) references cards(name))";
+                    + "ismonthly integer not null, "
+                    + "income real not null, outcome real not null, "
+                    + "primary key(card asc, date desc) "
+                    + "foreign key (card) references cards(name))";
 
     private boolean mWasCreated = false;
     private SQLiteDatabase db;
@@ -71,8 +71,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from cards", null);
         List<Card> cards = new ArrayList<Card>();
         while (cursor.moveToNext()) {
-            cards.add(new Card(cursor.getString(0), cursor.getString(1), cursor
-                    .getDouble(2)));
+            cards.add(new Card(cursor.getString(0), cursor.getString(1), cursor.getDouble(2)));
         }
         cursor.close();
         return cards;
@@ -109,39 +108,35 @@ public class DBHelper extends SQLiteOpenHelper {
         int year = notif.year * 10000;
         int month = notif.month * 100;
         String[] args = { notif.card, String.valueOf(year + month + notif.day) };
-        double income, outcome;
+        String income, outcome;
         if (notif.diff > 0) {
-            income = notif.diff;
-            outcome = 0;
+            income = String.format(Locale.US, "%f", notif.diff);
+            outcome = "0";
         } else {
-            income = 0;
-            outcome = -notif.diff;
+            income = "0";
+            outcome = String.format(Locale.US, "%f", -notif.diff);
         }
         String selectQuery = "select * from stats where card=? and date=?";
-        String insertQuery = "insert into stats values('%s', %s, %d, %f, %f)";
-        String updateQuery = "update stats set income=income+%f, outcome=outcome+%f "
+        String insertQuery = "insert into stats values('%s', %s, %d, %s, %s)";
+        String updateQuery = "update stats set income=income+%s, outcome=outcome+%s "
                 + "where card='%s' and date=%s";
         db.beginTransaction();
         Cursor cursor;
-        if (year == DateHelper.year && month == DateHelper.month) {
+        if (notif.year == DateHelper.year && notif.month == DateHelper.month) {
             cursor = db.rawQuery(selectQuery, args);
             if (cursor.isAfterLast()) {
-                db.execSQL(String.format(Locale.US, insertQuery, notif.card,
-                        args[1], 0, income, outcome));
+                db.execSQL(String.format(insertQuery, notif.card, args[1], 0, income, outcome));
             } else {
-                db.execSQL(String.format(Locale.US, updateQuery, income,
-                        outcome, notif.card, args[1]));
+                db.execSQL(String.format(updateQuery, income, outcome, notif.card, args[1]));
             }
             cursor.close();
         }
         args[1] = String.valueOf(year + month);
         cursor = db.rawQuery(selectQuery, args);
         if (cursor.isAfterLast()) {
-            db.execSQL(String.format(Locale.US, insertQuery, notif.card,
-                    args[1], 1, income, outcome));
+            db.execSQL(String.format(insertQuery, notif.card, args[1], 1, income, outcome));
         } else {
-            db.execSQL(String.format(Locale.US, updateQuery, income, outcome,
-                    notif.card, args[1]));
+            db.execSQL(String.format(updateQuery, income, outcome, notif.card, args[1]));
         }
         cursor.close();
         db.setTransactionSuccessful();

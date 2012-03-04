@@ -23,7 +23,7 @@ public class SmsReceiver extends BroadcastReceiver {
         for (int i = 0; i < pdus.length; i++) {
             SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdus[i]);
             SmsNotification notif = SmsParser.parse(
-                    sms.getDisplayMessageBody(), sms.getOriginatingAddress());
+                    sms.getDisplayOriginatingAddress(), sms.getDisplayMessageBody());
             if (notif != null) {
                 helper.saveCard(notif.card, notif.card, notif.balance);
                 helper.addNotification(notif);
