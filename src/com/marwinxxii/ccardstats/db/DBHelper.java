@@ -3,6 +3,8 @@ package com.marwinxxii.ccardstats.db;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.marwinxxii.ccardstats.helpers.DateHelper;
 import com.marwinxxii.ccardstats.notifications.SmsNotification;
@@ -76,12 +78,21 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return cards;
     }
+    
+    public Card getCard(String name) {
+        init();
+        Cursor cursor = db.rawQuery("select * from cards where name=?", new String[]{name});
+        Card card = null;
+        if (cursor.moveToNext())
+            card= new Card(cursor.getString(0), cursor.getString(1), cursor.getDouble(2));
+        cursor.close();
+        return card;
+    }
 
     public void saveCard(String name, String alias, double balance) {
         init();
-        db.execSQL(String.format(Locale.US,
-                "insert or replace into cards values('%s', '%s', %f)", name,
-                alias, balance));
+        db.execSQL(String.format(Locale.US, "insert or replace into cards values('%s', '%s', %f)",
+                name, alias, balance));
     }
 
     public double[] getAllStats(Card c, int year, int month, int day) {
@@ -102,6 +113,52 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return res;
+    }
+    
+    public Map<Integer, double[]> getYearStats(String card, int year) {
+        init();
+        int endYear = (year+1) *10000;
+        year = year * 10000;
+        String query = "select (date-%d)/100, income, outcome from stats" +
+                " where card='%s' and ismonthly=1 and date>=%d and date<%d";
+        Cursor cursor = db.rawQuery(String.format(query, year, card, year, endYear), null);
+        TreeMap<Integer, double[]> result = new TreeMap<Integer, double[]>();
+        while (cursor.moveToNext()) {
+            result.put(cursor.getInt(0), new double[]{cursor.getDouble(1), cursor.getDouble(2)});
+        }
+        cursor.close();
+        return result;
+    }
+    
+    public Map<Integer, double[]> getMonthStats(String card, int year, int month) {
+        init();
+        int startDate = year*10000 + month*100, endDate;
+        if (month < 12) {
+            endDate = year*10000 + (month + 1)*100;
+        } else {
+            endDate=(year+1)*10000 + 1*100;
+        }
+        String query = "select (date-%d), income, outcome from stats where card='%s' and " +
+        		"ismonthly=0 and date>=%d and date<%d";
+        Cursor c = db.rawQuery(String.format(query, startDate, card, startDate, endDate), null);
+        TreeMap<Integer, double[]> result = new TreeMap<Integer, double[]>();
+        while(c.moveToNext()) {
+            result.put(c.getInt(0), new double[]{c.getDouble(1), c.getDouble(2)});
+        }
+        c.close();
+        return result;
+    }
+    
+    public List<Integer> getYears(Card card) {
+        init();
+        Cursor c = db.rawQuery("select distinct date/10000 from stats where card=?",
+                new String[]{card.getName()});
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        while (c.moveToNext()) {
+            result.add(c.getInt(0));
+        }
+        c.close();
+        return result;
     }
 
     public void addNotification(SmsNotification notif) {

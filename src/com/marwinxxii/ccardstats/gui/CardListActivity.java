@@ -1,23 +1,31 @@
 package com.marwinxxii.ccardstats.gui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.marwinxxii.ccardstats.R;
 import com.marwinxxii.ccardstats.db.Card;
 import com.marwinxxii.ccardstats.db.DBHelper;
 import com.marwinxxii.ccardstats.helpers.DateHelper;
+import com.marwinxxii.ccardstats.helpers.MoneyHelper;
 import com.marwinxxii.ccardstats.notifications.NotificationReader;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.ListView;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 
-public class CardListActivity extends Activity {
+public class CardListActivity extends SimpleListActivity implements OnItemLongClickListener,
+    OnItemClickListener {
 
     private static final int[] ids = { R.id.card_item_name,
             R.id.card_item_total_in, R.id.card_item_total_out,
@@ -25,53 +33,58 @@ public class CardListActivity extends Activity {
             R.id.card_item_today_in, R.id.card_item_today_out,
             R.id.card_item_balance };
 
-    private Dialog mProgressDialog;
-    private ListView mCardsList;
-    public static List<String[]> values;
+    private static List<Card> cards;
+    private static Map<Integer, List<Integer>> cardYears;
+    private int selectedCardIndex;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cards);
-        mCardsList = (ListView) findViewById(R.id.cards_list_list);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (values != null) {
-            setCardListAdapter();
-            return;
-        }
-        mProgressDialog = ProgressDialog.show(this,
-                getString(R.string.read_sms_dialog_title),
+        setDialogParams(R.string.read_sms_dialog_title,
                 getString(R.string.read_sms_dialog_message));
-        mProgressDialog.show();
+        mItemsList.setOnItemLongClickListener(this);
+        mItemsList.setOnItemClickListener(this);
+        registerForContextMenu(mItemsList);
+    }
+    
+    @Override
+    public void setListTitle() {
+        super.setTitleResId(R.string.cards_list_title);
+    }
+    
+    @Override
+    protected void getItems() {
         new ReadSmsTask().execute();
     }
-
-    private void setCardListAdapter() {
-        CardItemAdapter adapter = new CardItemAdapter(this, R.layout.card_item,
-                ids, values);
-        mCardsList.setAdapter(adapter);
+    
+    @Override
+    protected int getItemLayout() {
+        return R.layout.card_item;
+    }
+    
+    @Override
+    protected int[] getItemFieldsIds() {
+        return ids;
     }
 
-    public static void prepareCardsInfo(DBHelper helper, List<Card> cards) {
-        values = new ArrayList<String[]>();
+    public static List<String[]> prepareCardsInfo(DBHelper helper, List<Card> cards) {
+        List<String[]> values = new ArrayList<String[]>();
+        cardYears = new HashMap<Integer, List<Integer>>(cards.size());
+        int k=0;
         for (Card c : cards) {
             String[] buf = new String[8];
             double[] vals = helper.getAllStats(c, DateHelper.year,
                     DateHelper.month, DateHelper.day);
             buf[0] = c.getAlias();
             for (int i = 0; i < vals.length; i += 2) {
-                String format = vals[i] < 0.01 ? "%.2f" : "+%.2f";
-                buf[i + 1] = String.format(format, vals[i]);
-                format = vals[i + 1] < 0.01 ? "%.2f" : "-%.2f";
-                buf[i + 2] = String.format(format, vals[i + 1]);
+                buf[i+1] = MoneyHelper.formatMoney(vals[i], true);
+                buf[i+2] = MoneyHelper.formatMoney(vals[i+1], false);
             }
             buf[7] = String.format("%.2f", c.getBalance());
             values.add(buf);
+            cardYears.put(k++, helper.getYears(c));
         }
+        return values;
     }
 
     public class ReadSmsTask extends AsyncTask<Void, Void, Void> {
@@ -80,23 +93,55 @@ public class CardListActivity extends Activity {
         protected Void doInBackground(Void... params) {
             Context context = getApplicationContext();
             DBHelper helper = new DBHelper(context);
-            List<Card> cards = helper.getCards();
+            cards = helper.getCards();
             if (helper.wasCreated()) {
-                NotificationReader reader = new NotificationReader(context,
-                        helper);
+                NotificationReader reader = new NotificationReader(context, helper);
                 reader.readNotificationsToDB();
                 cards = helper.getCards();
             }
-            prepareCardsInfo(helper, cards);
+            cacheValues(prepareCardsInfo(helper, cards));
             helper.close();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            setCardListAdapter();
-            mProgressDialog.dismiss();
+            setListAdapter();
+            progressDialog.dismiss();
         }
 
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        selectedCardIndex = position;
+        parent.performLongClick();
+        return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        startActivity(MonthStatsActivity.getStartingIntent(this, cards.get(position).getName(),
+                DateHelper.year, DateHelper.month));
+    }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.card, menu);
+        menu.setHeaderTitle(R.string.card_item_menu_title);
+        List<Integer> years = cardYears.get(selectedCardIndex);
+        for (Integer year:years) {
+            menu.add(year.toString());
+        }
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        String card = cards.get(selectedCardIndex).getName();
+        int year = Integer.parseInt(item.getTitle().toString());
+        startActivity(YearStatsActivity.getStartingIntent(this, card, year));
+        return true;
     }
 }

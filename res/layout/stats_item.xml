@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/list_activity_item">
+    <TextView
+            android:id="@+id/stats_item_text"
+            android:layout_gravity="left"
+            android:layout_weight="0.34"
+            style="@style/stats_text"/>
+        <TextView
+            android:id="@+id/stats_item_income"
+            android:layout_weight="0.33"
+            style="@style/stats_income"/>
+        <TextView
+            android:id="@+id/stats_item_outcome"
+            android:layout_weight="0.33"
+            style="@style/stats_outcome"/>
+</LinearLayout>

@@ -3,46 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:stretchColumns="1,2"
-    style="@style/CardListItem">
+    style="@style/list_activity_item">
     <TableRow>
         <TextView
 	        android:id="@+id/card_item_name"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        style="@style/CardName"/>
+	        style="@style/card_name"/>
     </TableRow>
     <TableRow>
         <TextView
 	        android:text="@string/card_item_total"
-	        style="@style/CardInfo"/>
+	        style="@style/stats_text"/>
         <TextView
             android:id="@+id/card_item_total_in"
-            style="@style/CardPlus"/>
+            style="@style/stats_income"/>
 	    <TextView
 	        android:id="@+id/card_item_total_out"
-	        style="@style/CardMinus"/>
+	        style="@style/stats_outcome"/>
     </TableRow>
     <TableRow>
         <TextView
 	        android:text="@string/card_item_month"
-	        style="@style/CardInfo"/>
+	        style="@style/stats_text"/>
         <TextView
             android:id="@+id/card_item_month_in"
-            style="@style/CardPlus"/>
+            style="@style/stats_income"/>
 	    <TextView
 	        android:id="@+id/card_item_month_out"
-	        style="@style/CardMinus"/>
+	        style="@style/stats_outcome"/>
     </TableRow>
     <TableRow>
         <TextView
 	        android:text="@string/card_item_today"
-	        style="@style/CardInfo"/>
+	        style="@style/stats_text"/>
         <TextView
             android:id="@+id/card_item_today_in"
-            style="@style/CardPlus"/>
+            style="@style/stats_income"/>
 	    <TextView
 	        android:id="@+id/card_item_today_out"
-	        style="@style/CardMinus"/>
+	        style="@style/stats_outcome"/>
     </TableRow>
     
     <View
@@ -54,9 +54,10 @@
     <TableRow>
         <TextView
 	        android:text="@string/card_item_available"
-	        style="@style/CardAvailableText"/>
+	        style="@style/card_available"/>
 	    <TextView
 	        android:id="@+id/card_item_balance"
-	        style="@style/CardAvailableNumber"/>
+	        android:textColor="@color/money_plus"
+	        style="@style/card_available_number"/>
     </TableRow>
 </TableLayout>

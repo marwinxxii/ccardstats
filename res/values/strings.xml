@@ -3,13 +3,46 @@
 
     <string name="app_name">Credit card stats</string>
     
+    <!-- ListActivity -->
+    <string name="list_activity_noitems">No items in this list</string>
+    
+    <!-- CardsList -->
     <string name="read_sms_dialog_title">Reading SMS</string>
     <string name="read_sms_dialog_message">Searching for SMS notifications</string>
-    
-    <string name="cards_list_cards">Your cards</string>
+    <string name="cards_list_title">Your cards</string>
     <string name="card_item_total">Total:</string>
     <string name="card_item_month">Month:</string>
     <string name="card_item_today">Today:</string>
     <string name="card_item_available">Available:</string>
+    <string name="card_item_menu_title">Choose year</string>
+    
+    <string name="reading_stats_dialog_title">Reading statistic</string>
+    
+    <!-- Current month stats -->
+    <string name="current_month_stats_dialog_message">Reading statistic for month</string>
+    <string name="current_month_stats_title">%s: current month</string>
+    
+    <!-- Month stats activity-->
+    <string name="month_stats_dialog_message">Reading statistic for month</string>
+    <string name="month_stats_title" formatted="false">%s: %d, %s</string>
+    
+    <!-- Year stats activity -->
+    <string name="year_stats_dialog_message">Reading statistic for year</string>
+    <string name="year_stats_title" formatted="false">%s: %d stats</string>
+    
+    <string-array name="month_names">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 
 </resources>

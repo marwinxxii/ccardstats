@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="CardListActivity">
-        <item name="android:padding">10dp</item>
-    </style>
-    <style name="CardListItem">
+    <color name="money_plus">#00AF00</color>
+    <color name="money_minus">#bf0000</color>
+    
+    <!-- ListActivity -->
+    <style name="list_activity_title">
+        <item name="android:textSize">30sp</item>
         <item name="android:padding">5dp</item>
     </style>
-    <style name="CardListTitle">
-        <item name="android:textSize">30sp</item>
+    <style name="list_activity_item">
+        <item name="android:padding">5dp</item>
     </style>
-    <style name="CardName">
-        <item name="android:textSize">25sp</item>
-    </style>
-    <style name="CardInfo">
+    <style name="list_activity_item_text">
         <item name="android:textSize">20sp</item>
-        <item name="android:layout_width">wrap_content</item>
+    </style>
+    
+    <style name="stats_text" parent="@style/list_activity_item_text">
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-    <style name="CardValue" parent="@style/CardInfo">
+    <style name="stats_income" parent="@style/stats_text">
+        <item name="android:textColor">@color/money_plus</item>
         <item name="android:gravity">right</item>
     </style>
-    <style name="CardPlus" parent="@style/CardValue">
-        <item name="android:textColor">#00AF00</item>
+    <style name="stats_outcome" parent="@style/stats_text">
+        <item name="android:textColor">@color/money_minus</item>
+        <item name="android:gravity">right</item>
     </style>
-    <style name="CardMinus" parent="@style/CardValue">
-        <item name="android:textColor">#bf0000</item>
+    
+    <!-- CardsListActivity -->
+    <style name="card_name">
+        <item name="android:textSize">25sp</item>
     </style>
-    <style name="CardAvailableText" parent="@style/CardInfo">
+    <style name="card_available" parent="@style/stats_text">
         <item name="android:textStyle">bold</item>
     </style>
-    <style name="CardAvailableNumber" parent="@style/CardAvailableText">
-        <item name="android:textColor">#00AF00</item>        
+    <style name="card_available_number" parent="@style/card_available">
+        <item name="android:textColor">@color/money_plus</item>        
         <item name="android:gravity">right</item>
     </style>
 </resources>

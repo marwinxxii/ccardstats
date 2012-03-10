@@ -16,6 +16,7 @@ public abstract class DateHelper {
     private static long today, tomorrow;
     public static int year, month, day;
     public static Date Today;
+    private static String[] monthNames;
 
     static {
         GregorianCalendar temp = new GregorianCalendar(
@@ -32,6 +33,10 @@ public abstract class DateHelper {
         month = calendar.get(Calendar.MONTH) + 1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
         Today = calendar.getTime();
+    }
+    
+    public static void setMonthNames(String[] names) {
+        monthNames = names;
     }
 
     public static long parseSberbankDate(String date) {
@@ -59,5 +64,9 @@ public abstract class DateHelper {
 
     public static long getTomorrow() {
         return tomorrow;
+    }
+    
+    public static String getMonthName(int month) {
+        return monthNames[month-1];
     }
 }
