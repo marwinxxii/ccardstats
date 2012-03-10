@@ -21,7 +21,6 @@ public class SberbankService implements NotificationService {
     @Override
     public String getAddress() {
         return "900";
-        // return "+79215677256";
     }
 
     @Override

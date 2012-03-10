@@ -7,11 +7,12 @@
             android:key="exchange_rates_usd"
             android:title="@string/prefs_exchange_rates_usd"
             android:defaultValue="30.0"
-            android:inputType="number"/>
+            android:numeric="integer|decimal"
+            />
         <EditTextPreference
             android:key="exchange_rates_eur"
             android:title="@string/prefs_exchange_rates_eur"
             android:defaultValue="39.0"
-            android:inputType="number"/>
+            android:numeric="integer|decimal"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -16,8 +16,8 @@ public class Application extends android.app.Application {
         DateHelper.setMonthNames(getResources().getStringArray(R.array.month_names));
         SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
         HashMap<String, Double> rates = new HashMap<String, Double>(2);
-        rates.put("usd", (double)prefs.getFloat("exchange_rates_usd", 30.0f));
-        rates.put("eur", (double)prefs.getFloat("exchange_rates_eur", 39.0f));
+        rates.put("usd", Double.parseDouble(prefs.getString("exchange_rates_usd", "30.0")));
+        rates.put("eur", Double.parseDouble(prefs.getString("exchange_rates_eur", "39.0")));
         MoneyHelper.setExchangeRates(rates);
     }
 }
