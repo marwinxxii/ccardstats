@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.marwinxxii.ccardstats.helpers.DateHelper;
+import com.marwinxxii.ccardstats.helpers.MoneyHelper;
 
 public class SberbankService implements NotificationService {
 
@@ -30,9 +31,9 @@ public class SberbankService implements NotificationService {
             throw EXCEPTION;
         String[] fields = body.toLowerCase().split(";");
         Date date = parseDate(fields[fields.length - 2]);
-        double balance = removeCurrency(fields[fields.length - 1].replace(
+        double balance = MoneyHelper.parseCurrency(fields[fields.length - 1].replace(
                 "dostupno:", ""));
-        double diff = removeCurrency(fields[INDEX_AMOUNT].replace("summa:", ""));
+        double diff = MoneyHelper.parseCurrency(fields[INDEX_AMOUNT].replace("summa:", ""));
         if (!fields[INDEX_OPERATION].trim().equals("popolnenie scheta")) {
             diff = -diff;
         }
@@ -50,11 +51,6 @@ public class SberbankService implements NotificationService {
         } catch (ParseException e) {
             return DateHelper.Today;
         }
-    }
-
-    private static double removeCurrency(String number) {
-        int curStart = number.indexOf('.') + 2;
-        return Double.valueOf(number.substring(0, curStart));
     }
 
 }

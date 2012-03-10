@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/prefs_category_exchange_rates"
+        android:key="exchange_rates">
+        <EditTextPreference
+            android:key="exchange_rates_usd"
+            android:title="@string/prefs_exchange_rates_usd"
+            android:defaultValue="30.0"
+            android:inputType="number"/>
+        <EditTextPreference
+            android:key="exchange_rates_eur"
+            android:title="@string/prefs_exchange_rates_eur"
+            android:defaultValue="39.0"
+            android:inputType="number"/>
+    </PreferenceCategory>
+</PreferenceScreen>

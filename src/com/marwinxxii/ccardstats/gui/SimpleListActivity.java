@@ -8,6 +8,9 @@ import com.marwinxxii.ccardstats.R;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class SimpleListActivity extends ListActivity {
     
@@ -92,5 +95,23 @@ public class SimpleListActivity extends ListActivity {
     
     protected List<String[]> getValuesFromCache() {
         return cache.get(cacheKey);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.menu_main_rates:
+            default:
+                startActivity(PreferencesActivity.getStartingIntent(this));
+                break;
+        }
+        return true;
     }
 }

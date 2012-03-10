@@ -22,8 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.marwinxxii.ccardstats.gui.MonthStatsActivity"/>
-        <activity android:name="com.marwinxxii.ccardstats.gui.YearStatsActivity"/>
+        <activity android:name=".gui.MonthStatsActivity"/>
+        <activity android:name=".gui.YearStatsActivity"/>
+        <activity android:name=".gui.PreferencesActivity"/>
         <receiver android:name=".SmsReceiver">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>

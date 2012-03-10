@@ -44,5 +44,13 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+    
+    <!-- PreferencesActivity -->
+    <string name="prefs_category_exchange_rates">Exchange rates</string>
+    <string name="prefs_exchange_rates_usd">USD</string>
+    <string name="prefs_exchange_rates_eur">EUR</string>
+    
+    <!-- Main menu -->
+    <string name="menu_main_rates">Exchange rates</string>
 
 </resources>
