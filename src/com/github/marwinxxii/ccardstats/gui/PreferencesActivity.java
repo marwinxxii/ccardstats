@@ -1,6 +1,6 @@
 package com.github.marwinxxii.ccardstats.gui;
 
-import com.marwinxxii.ccardstats.R;
+import com.github.marwinxxii.ccardstats.R;
 
 import android.content.Context;
 import android.content.Intent;

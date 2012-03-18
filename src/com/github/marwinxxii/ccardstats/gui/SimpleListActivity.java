@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.marwinxxii.ccardstats.R;
+import com.github.marwinxxii.ccardstats.R;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;

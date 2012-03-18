@@ -9,7 +9,7 @@ import com.github.marwinxxii.ccardstats.db.DBHelper;
 import com.github.marwinxxii.ccardstats.gui.GetStatsTask.FilterType;
 import com.github.marwinxxii.ccardstats.helpers.DateHelper;
 import com.github.marwinxxii.ccardstats.helpers.MoneyHelper;
-import com.marwinxxii.ccardstats.R;
+import com.github.marwinxxii.ccardstats.R;
 
 import android.content.Context;
 import android.content.Intent;

@@ -10,7 +10,7 @@ import android.os.Bundle;
 import com.github.marwinxxii.ccardstats.gui.GetStatsTask.FilterType;
 import com.github.marwinxxii.ccardstats.helpers.DateHelper;
 import com.github.marwinxxii.ccardstats.helpers.MoneyHelper;
-import com.marwinxxii.ccardstats.R;
+import com.github.marwinxxii.ccardstats.R;
 
 
 public class MonthStatsActivity extends SimpleListActivity {
