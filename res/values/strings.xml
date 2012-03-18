@@ -52,6 +52,7 @@
     <string name="prefs_exchange_rates_eur">EUR</string>
     <string name="prefs_store_month_title">Daily stats</string>
     <string name="prefs_store_month_summary">Store stats for days only in current month</string>
+    <string name="prefs_category_statistic">Statistic</string>
     
     <!-- Main menu -->
     <string name="menu_main_prefs">Preferences</string>

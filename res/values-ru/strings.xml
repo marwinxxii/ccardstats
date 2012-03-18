@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Credit card stats</string>
+    
+    <!-- ListActivity -->
+    <string name="list_activity_noitems">Список пуст</string>
+    
+    <!-- CardsList -->
+    <string name="read_sms_dialog_title">Читаем СМС</string>
+    <string name="read_sms_dialog_message">Ищем СМС уведомления</string>
+    <string name="cards_list_title">Ваши карты</string>
+    <string name="card_item_total">Всего:</string>
+    <string name="card_item_month">За месяц:</string>
+    <string name="card_item_today">Сегодня:</string>
+    <string name="card_item_available">На счету:</string>
+    <string name="card_item_menu_title">Выберите год</string>
+    
+    <string name="reading_stats_dialog_title">Считываем статистику</string>
+    
+    <!-- Current month stats -->
+    <string name="current_month_stats_dialog_message">Считываем статистику за месяц</string>
+    <string name="current_month_stats_title">%s: этот месяц</string>
+    
+    <!-- Month stats activity-->
+    <string name="month_stats_dialog_message">Считываем статистику за месяц</string>
+    <string name="month_stats_title" formatted="false">%s: %d, %s</string>
+    
+    <!-- Year stats activity -->
+    <string name="year_stats_dialog_message">Считываем статистику за год</string>
+    <string name="year_stats_title" formatted="false">%s: %d год</string>
+    <string name="year_stats_nomonth_toast">Нет статистики за этот месяц</string>
+    
+    <string-array name="month_names">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </string-array>
+    
+    <!-- PreferencesActivity -->
+    <string name="prefs_category_exchange_rates">Курсы валют</string>
+    <string name="prefs_exchange_rates_usd">Доллар</string>
+    <string name="prefs_exchange_rates_eur">Евро</string>
+    <string name="prefs_store_month_title">Ежедневная статистика</string>
+    <string name="prefs_store_month_summary">Хранить статистику по дням только за текущий месяц</string>
+    <string name="prefs_category_statistic">Статистика</string>
+    
+    <!-- Main menu -->
+    <string name="menu_main_prefs">Настройки</string>
+
+</resources>
