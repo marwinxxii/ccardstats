@@ -1,13 +1,14 @@
-package com.marwinxxii.ccardstats;
+package com.github.marwinxxii.ccardstats;
 
 import java.util.HashMap;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.marwinxxii.ccardstats.db.DBHelper;
-import com.marwinxxii.ccardstats.helpers.DateHelper;
-import com.marwinxxii.ccardstats.helpers.MoneyHelper;
+import com.github.marwinxxii.ccardstats.db.DBHelper;
+import com.github.marwinxxii.ccardstats.helpers.DateHelper;
+import com.github.marwinxxii.ccardstats.helpers.MoneyHelper;
+import com.marwinxxii.ccardstats.R;
 
 
 public class Application extends android.app.Application {

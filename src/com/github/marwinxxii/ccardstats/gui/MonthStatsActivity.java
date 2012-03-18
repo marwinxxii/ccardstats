@@ -1,4 +1,4 @@
-package com.marwinxxii.ccardstats.gui;
+package com.github.marwinxxii.ccardstats.gui;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.github.marwinxxii.ccardstats.gui.GetStatsTask.FilterType;
+import com.github.marwinxxii.ccardstats.helpers.DateHelper;
+import com.github.marwinxxii.ccardstats.helpers.MoneyHelper;
 import com.marwinxxii.ccardstats.R;
-import com.marwinxxii.ccardstats.gui.GetStatsTask.FilterType;
-import com.marwinxxii.ccardstats.helpers.DateHelper;
-import com.marwinxxii.ccardstats.helpers.MoneyHelper;
 
 
 public class MonthStatsActivity extends SimpleListActivity {

@@ -1,4 +1,4 @@
-package com.marwinxxii.ccardstats.notifications;
+package com.github.marwinxxii.ccardstats.notifications;
 
 public class SmsNotification {
 

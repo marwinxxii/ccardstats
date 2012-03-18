@@ -1,4 +1,4 @@
-package com.marwinxxii.ccardstats.db;
+package com.github.marwinxxii.ccardstats.db;
 
 public class Card {
 

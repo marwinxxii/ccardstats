@@ -1,9 +1,9 @@
-package com.marwinxxii.ccardstats;
+package com.github.marwinxxii.ccardstats;
 
-import com.marwinxxii.ccardstats.db.DBHelper;
-import com.marwinxxii.ccardstats.gui.CardListActivity;
-import com.marwinxxii.ccardstats.notifications.SmsNotification;
-import com.marwinxxii.ccardstats.notifications.SmsParser;
+import com.github.marwinxxii.ccardstats.db.DBHelper;
+import com.github.marwinxxii.ccardstats.gui.CardListActivity;
+import com.github.marwinxxii.ccardstats.notifications.SmsNotification;
+import com.github.marwinxxii.ccardstats.notifications.SmsParser;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.marwinxxii.ccardstats.gui;
+package com.github.marwinxxii.ccardstats.gui;
 
 import com.marwinxxii.ccardstats.R;
 

@@ -1,11 +1,11 @@
-package com.marwinxxii.ccardstats.notifications;
+package com.github.marwinxxii.ccardstats.notifications;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.marwinxxii.ccardstats.helpers.DateHelper;
-import com.marwinxxii.ccardstats.helpers.MoneyHelper;
+import com.github.marwinxxii.ccardstats.helpers.DateHelper;
+import com.github.marwinxxii.ccardstats.helpers.MoneyHelper;
 
 public class SberbankService implements NotificationService {
 
