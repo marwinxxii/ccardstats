@@ -29,6 +29,7 @@
     <!-- Year stats activity -->
     <string name="year_stats_dialog_message">Reading statistic for year</string>
     <string name="year_stats_title" formatted="false">%s: %d stats</string>
+    <string name="year_stats_nomonth_toast">No stats for this month</string>
     
     <string-array name="month_names">
         <item>January</item>
@@ -49,8 +50,10 @@
     <string name="prefs_category_exchange_rates">Exchange rates</string>
     <string name="prefs_exchange_rates_usd">USD</string>
     <string name="prefs_exchange_rates_eur">EUR</string>
+    <string name="prefs_store_month_title">Daily stats</string>
+    <string name="prefs_store_month_summary">Store stats for days only in current month</string>
     
     <!-- Main menu -->
-    <string name="menu_main_rates">Exchange rates</string>
+    <string name="menu_main_prefs">Preferences</string>
 
 </resources>

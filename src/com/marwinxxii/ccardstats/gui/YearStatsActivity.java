@@ -17,12 +17,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
-public class YearStatsActivity extends SimpleListActivity {//implements OnItemClickListener{
+public class YearStatsActivity extends SimpleListActivity implements OnItemClickListener{
     
     private String card;
     private int year;
     private static List<Integer> months;
+    private Toast toast;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,8 @@ public class YearStatsActivity extends SimpleListActivity {//implements OnItemCl
         Intent i = getIntent();
         card = i.getStringExtra("card");
         year = i.getIntExtra("year", DateHelper.year);
-        //mItemsList.setOnItemClickListener(this);
+        mItemsList.setOnItemClickListener(this);
+        toast = Toast.makeText(this, R.string.year_stats_nomonth_toast, Toast.LENGTH_SHORT);
     }
     
     @Override
@@ -63,16 +66,26 @@ public class YearStatsActivity extends SimpleListActivity {//implements OnItemCl
         super.onTaskComplete(values);
     }
     
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (!DBHelper.storeMonth) {
+            int month = months.get(position);
+            startActivity(MonthStatsActivity.getStartingIntent(this, card, year, month));
+        } else {
+            toast.show();
+        }
+    }
+    
+    @Override
+    public void onStop() {
+        super.onStop();
+        toast.cancel();
+    }
+    
     public static Intent getStartingIntent(Context context, String card, int year) {
         Intent i = new Intent(context, YearStatsActivity.class);
         i.putExtra("card", card);
         i.putExtra("year", year);
         return i;
     }
-
-    /*@Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        int month = months.get(position);
-        startActivity(MonthStatsActivity.getStartingIntent(this, card, year, month));
-    }*/
 }

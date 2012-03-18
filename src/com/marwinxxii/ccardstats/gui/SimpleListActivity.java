@@ -102,7 +102,7 @@ public class SimpleListActivity extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.menu_main_rates:
+            case R.id.menu_main_prefs:
             default:
                 startActivity(PreferencesActivity.getStartingIntent(this));
                 break;

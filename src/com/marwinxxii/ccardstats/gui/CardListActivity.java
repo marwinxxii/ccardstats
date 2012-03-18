@@ -100,6 +100,7 @@ public class CardListActivity extends SimpleListActivity implements OnItemLongCl
                 cards = helper.getCards();
             }
             cacheValues(prepareCardsInfo(helper, cards));
+            if (DBHelper.storeMonth) helper.deleteOldEntries(cards);
             helper.close();
             return null;
         }

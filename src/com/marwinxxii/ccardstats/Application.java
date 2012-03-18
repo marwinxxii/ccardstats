@@ -5,6 +5,7 @@ import java.util.HashMap;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.marwinxxii.ccardstats.db.DBHelper;
 import com.marwinxxii.ccardstats.helpers.DateHelper;
 import com.marwinxxii.ccardstats.helpers.MoneyHelper;
 
@@ -19,5 +20,6 @@ public class Application extends android.app.Application {
         rates.put("usd", Double.parseDouble(prefs.getString("exchange_rates_usd", "30.0")));
         rates.put("eur", Double.parseDouble(prefs.getString("exchange_rates_eur", "39.0")));
         MoneyHelper.setExchangeRates(rates);
+        DBHelper.storeMonth = prefs.getBoolean("store_month", DBHelper.storeMonth);
     }
 }

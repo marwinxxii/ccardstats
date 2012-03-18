@@ -30,6 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private boolean mWasCreated = false;
     private SQLiteDatabase db;
+    public static boolean storeMonth = false;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -179,7 +180,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "where card='%s' and date=%s";
         db.beginTransaction();
         Cursor cursor;
-        if (notif.year == DateHelper.year && notif.month == DateHelper.month) {
+        if (!storeMonth || (notif.year == DateHelper.year && notif.month == DateHelper.month)) {
             cursor = db.rawQuery(selectQuery, args);
             if (cursor.isAfterLast()) {
                 db.execSQL(String.format(insertQuery, notif.card, args[1], 0, income, outcome));
@@ -198,5 +199,13 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.setTransactionSuccessful();
         db.endTransaction();
+    }
+    
+    public void deleteOldEntries(List<Card> cards) {
+        int date = DateHelper.year * 10000 + DateHelper.month * 100;
+        String query = "delete from stats where card='%s' and ismonthly=0 and date<%d";
+        for(Card c:cards) {
+            db.execSQL(String.format(query, c.getName(), date));
+        }
     }
 }

@@ -14,5 +14,10 @@
             android:title="@string/prefs_exchange_rates_eur"
             android:defaultValue="39.0"
             android:numeric="integer|decimal"/>
+        <CheckBoxPreference
+            android:key="store_month"
+            android:title="@string/prefs_store_month_title"
+            android:summary="@string/prefs_store_month_summary"
+            android:defaultValue="false"/>
     </PreferenceCategory>
 </PreferenceScreen>
