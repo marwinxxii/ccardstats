@@ -29,6 +29,7 @@ public class SimpleListActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cacheKey = this.getClass().getName();
+        if (savedInstanceState == null) cache.remove(cacheKey);
     }
     
     @Override
@@ -46,12 +47,6 @@ public class SimpleListActivity extends ListActivity {
         }
         if (progressDialog != null) progressDialog.show();
         getItems();
-    }
-    
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        cache.remove(cacheKey);
     }
     
     protected int getItemLayout() {
