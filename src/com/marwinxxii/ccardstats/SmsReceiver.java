@@ -29,8 +29,8 @@ public class SmsReceiver extends BroadcastReceiver {
                 helper.addNotification(notif);
             }
         }
-        helper.close();
         CardListActivity.prepareCardsInfo(helper, helper.getCards());
+        helper.close();
     }
 
 }
