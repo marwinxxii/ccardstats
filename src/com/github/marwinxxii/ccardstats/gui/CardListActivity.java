@@ -1,16 +1,16 @@
-package com.marwinxxii.ccardstats.gui;
+package com.github.marwinxxii.ccardstats.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.marwinxxii.ccardstats.R;
-import com.marwinxxii.ccardstats.db.Card;
-import com.marwinxxii.ccardstats.db.DBHelper;
-import com.marwinxxii.ccardstats.helpers.DateHelper;
-import com.marwinxxii.ccardstats.helpers.MoneyHelper;
-import com.marwinxxii.ccardstats.notifications.NotificationReader;
+import com.github.marwinxxii.ccardstats.db.Card;
+import com.github.marwinxxii.ccardstats.db.DBHelper;
+import com.github.marwinxxii.ccardstats.helpers.DateHelper;
+import com.github.marwinxxii.ccardstats.helpers.MoneyHelper;
+import com.github.marwinxxii.ccardstats.notifications.NotificationReader;
+import com.github.marwinxxii.ccardstats.R;
 
 import android.content.Context;
 import android.os.AsyncTask;

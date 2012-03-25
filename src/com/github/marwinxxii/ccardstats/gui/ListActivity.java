@@ -1,6 +1,6 @@
-package com.marwinxxii.ccardstats.gui;
+package com.github.marwinxxii.ccardstats.gui;
 
-import com.marwinxxii.ccardstats.R;
+import com.github.marwinxxii.ccardstats.R;
 
 import android.app.Activity;
 import android.os.Bundle;

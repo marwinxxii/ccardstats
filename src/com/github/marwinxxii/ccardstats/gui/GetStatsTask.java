@@ -1,8 +1,8 @@
-package com.marwinxxii.ccardstats.gui;
+package com.github.marwinxxii.ccardstats.gui;
 
 import java.util.Map;
 
-import com.marwinxxii.ccardstats.db.DBHelper;
+import com.github.marwinxxii.ccardstats.db.DBHelper;
 
 import android.os.AsyncTask;
 

@@ -1,8 +1,8 @@
-package com.marwinxxii.ccardstats.notifications;
+package com.github.marwinxxii.ccardstats.notifications;
 
 import java.util.HashMap;
 
-import com.marwinxxii.ccardstats.db.DBHelper;
+import com.github.marwinxxii.ccardstats.db.DBHelper;
 
 import android.content.Context;
 import android.database.Cursor;

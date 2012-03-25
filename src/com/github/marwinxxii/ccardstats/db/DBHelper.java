@@ -1,4 +1,4 @@
-package com.marwinxxii.ccardstats.db;
+package com.github.marwinxxii.ccardstats.db;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.marwinxxii.ccardstats.helpers.DateHelper;
-import com.marwinxxii.ccardstats.notifications.SmsNotification;
+import com.github.marwinxxii.ccardstats.helpers.DateHelper;
+import com.github.marwinxxii.ccardstats.notifications.SmsNotification;
 
 import android.content.Context;
 import android.database.Cursor;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.marwinxxii.ccardstats"
+    package="com.github.marwinxxii.ccardstats"
     android:versionCode="1"
-    android:versionName="beta" >
+    android:versionName="0.1" >
 
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.READ_SMS"/>
@@ -14,7 +14,7 @@
         android:theme="@android:style/Theme.Light"
         android:name=".Application">
         <activity
-            android:name="com.marwinxxii.ccardstats.gui.CardListActivity"
+            android:name=".gui.CardListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
