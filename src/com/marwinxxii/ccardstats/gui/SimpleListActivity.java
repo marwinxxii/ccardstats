@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.marwinxxii.ccardstats.R;
+import com.marwinxxii.ccardstats.helpers.MoneyHelper;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -80,6 +81,15 @@ public class SimpleListActivity extends ListActivity {
     protected void getItems() {}
     
     protected void onTaskComplete(Map<Integer, double[]> values) {
+        double[] money = values.get(-1);
+        if (money != null) {
+            String[] temp = {
+                    getString(R.string.total),
+                    MoneyHelper.formatMoney(money[0], true),
+                    MoneyHelper.formatMoney(money[1], false),
+            };
+            getValuesFromCache().add(temp);
+        }
         setListAdapter();
         progressDialog.dismiss();
     }

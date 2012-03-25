@@ -56,5 +56,8 @@
     
     <!-- Main menu -->
     <string name="menu_main_prefs">Настройки</string>
+    
+    <!-- Common -->
+    <string name="total">Всего:</string>
 
 </resources>

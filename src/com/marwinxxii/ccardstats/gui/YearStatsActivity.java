@@ -53,6 +53,7 @@ public class YearStatsActivity extends SimpleListActivity implements OnItemClick
         ArrayList<String[]> result = new ArrayList<String[]>(values.size());
         months = new ArrayList<Integer>(values.size());
         for (Integer month:values.keySet()) {
+            if (month == -1) continue;
             double[] money = values.get(month);
             String[] temp = {
                     DateHelper.getMonthName(month),

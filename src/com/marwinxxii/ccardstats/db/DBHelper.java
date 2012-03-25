@@ -208,4 +208,37 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL(String.format(query, c.getName(), date));
         }
     }
+    
+    public double[] getMonthTotalStats(String card, int year, int month) {
+        init();
+        int startDate = year*10000 + month*100, endDate;
+        if (month < 12) {
+            endDate = year*10000 + (month + 1)*100;
+        } else {
+            endDate=(year+1)*10000 + 1*100;
+        }
+        String query = "select sum(income), sum(outcome) from stats where card='%s' and " +
+                "ismonthly=0 and date>=%d and date<%d";
+        Cursor c = db.rawQuery(String.format(query, card, startDate, endDate), null);
+        double[] result = null;
+        if(c.moveToNext()) {
+            result = new double[] { c.getDouble(0), c.getDouble(1) };
+        }
+        c.close();
+        return result;
+    }
+    
+    public double[] getYearTotalStats(String card, int year) {
+        init();
+        int startDate = year*10000, endDate = (year+1)*10000;
+        String query = "select sum(income), sum(outcome) from stats where card='%s' and " +
+                "ismonthly=0 and date>=%d and date<%d";
+        Cursor c = db.rawQuery(String.format(query, card, startDate, endDate), null);
+        double[] result = null;
+        if(c.moveToNext()) {
+            result = new double[] { c.getDouble(0), c.getDouble(1) };
+        }
+        c.close();
+        return result;
+    }
 }

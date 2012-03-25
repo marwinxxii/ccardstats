@@ -32,10 +32,12 @@ public class GetStatsTask extends AsyncTask<Void, Void, Map<Integer, double[]>> 
         Map<Integer, double[]> result;
         switch (filter) {
             case MONTH:
-                result= helper.getMonthStats(card, year, month);
+                result=helper.getMonthStats(card, year, month);
+                result.put(-1, helper.getMonthTotalStats(card, year, month));
                 break;
             default:
                 result=helper.getYearStats(card, year);
+                result.put(-1, helper.getYearTotalStats(card, year));
                 break;
         }
         helper.close();

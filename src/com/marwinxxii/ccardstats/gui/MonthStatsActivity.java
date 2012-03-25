@@ -53,6 +53,7 @@ public class MonthStatsActivity extends SimpleListActivity {
     public void onTaskComplete(Map<Integer, double[]> values) {
         ArrayList<String[]> result = new ArrayList<String[]>(values.size());
         for (Integer day:values.keySet()) {
+            if (day == -1) continue;
             double[] money = values.get(day);
             String[] temp = {
                     day.toString(),
