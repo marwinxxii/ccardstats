@@ -31,9 +31,10 @@ public class DBHelper extends SQLiteOpenHelper {
     private boolean mWasCreated = false;
     private SQLiteDatabase db;
     public static boolean storeMonth = false;
+    public static final int VERSION = 2;
 
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, VERSION);
     }
 
     @Override
@@ -45,6 +46,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion == 1 && newVersion == 2) {
+            db.execSQL("update cards set name=upper(name)");
+        }
     }
 
     public boolean wasCreated() {
