@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 public class CardListActivity extends SimpleListActivity implements OnItemLongClickListener,
-    OnItemClickListener {
+        OnItemClickListener {
 
     private static final int[] ids = { R.id.card_item_name,
             R.id.card_item_total_in, R.id.card_item_total_out,
@@ -36,6 +37,7 @@ public class CardListActivity extends SimpleListActivity implements OnItemLongCl
     private static List<Card> cards;
     private static Map<Integer, List<Integer>> cardYears;
     private int selectedCardIndex;
+    private boolean forceUpdate = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,22 +48,22 @@ public class CardListActivity extends SimpleListActivity implements OnItemLongCl
         mItemsList.setOnItemClickListener(this);
         registerForContextMenu(mItemsList);
     }
-    
+
     @Override
     public void setListTitle() {
         super.setTitleResId(R.string.cards_list_title);
     }
-    
+
     @Override
     protected void getItems() {
         new ReadSmsTask().execute();
     }
-    
+
     @Override
     protected int getItemLayout() {
         return R.layout.card_item;
     }
-    
+
     @Override
     protected int[] getItemFieldsIds() {
         return ids;
@@ -70,15 +72,15 @@ public class CardListActivity extends SimpleListActivity implements OnItemLongCl
     public static List<String[]> prepareCardsInfo(DBHelper helper, List<Card> cards) {
         List<String[]> values = new ArrayList<String[]>();
         cardYears = new HashMap<Integer, List<Integer>>(cards.size());
-        int k=0;
+        int k = 0;
         for (Card c : cards) {
             String[] buf = new String[8];
             double[] vals = helper.getAllStats(c, DateHelper.year,
                     DateHelper.month, DateHelper.day);
             buf[0] = c.getAlias();
             for (int i = 0; i < vals.length; i += 2) {
-                buf[i+1] = MoneyHelper.formatMoney(vals[i], true);
-                buf[i+2] = MoneyHelper.formatMoney(vals[i+1], false);
+                buf[i + 1] = MoneyHelper.formatMoney(vals[i], true);
+                buf[i + 2] = MoneyHelper.formatMoney(vals[i + 1], false);
             }
             buf[7] = String.format("%.2f", c.getBalance());
             values.add(buf);
@@ -94,13 +96,15 @@ public class CardListActivity extends SimpleListActivity implements OnItemLongCl
             Context context = getApplicationContext();
             DBHelper helper = new DBHelper(context);
             cards = helper.getCards();
-            if (helper.wasCreated()) {
+            if (helper.wasCreated() || forceUpdate) {
                 NotificationReader reader = new NotificationReader(context, helper);
                 reader.readNotificationsToDB();
                 cards = helper.getCards();
+                forceUpdate = false;
             }
             cacheValues(prepareCardsInfo(helper, cards));
-            if (DBHelper.storeMonth) helper.deleteOldEntries(cards);
+            if (DBHelper.storeMonth)
+                helper.deleteOldEntries(cards);
             helper.close();
             return null;
         }
@@ -125,7 +129,7 @@ public class CardListActivity extends SimpleListActivity implements OnItemLongCl
         startActivity(MonthStatsActivity.getStartingIntent(this, cards.get(position).getName(),
                 DateHelper.year, DateHelper.month));
     }
-    
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -133,16 +137,40 @@ public class CardListActivity extends SimpleListActivity implements OnItemLongCl
         inflater.inflate(R.menu.card, menu);
         menu.setHeaderTitle(R.string.card_item_menu_title);
         List<Integer> years = cardYears.get(selectedCardIndex);
-        for (Integer year:years) {
+        for (Integer year : years) {
             menu.add(year.toString());
         }
     }
-    
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         String card = cards.get(selectedCardIndex).getName();
         int year = Integer.parseInt(item.getTitle().toString());
         startActivity(YearStatsActivity.getStartingIntent(this, card, year));
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.cards, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (!super.onOptionsItemSelected(item)) {
+            if (item.getItemId() == R.id.menu_cards_reread) {
+                if (progressDialog != null)
+                    progressDialog.show();
+                forceUpdate = true;
+                new ReadSmsTask().execute();
+                // TODO rewrite this in another way
+                return true;
+            }
+        } else {
+            return true;
+        }
+        return false;
     }
 }
