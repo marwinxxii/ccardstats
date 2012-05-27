@@ -30,4 +30,11 @@ public class MoneyHelper {
         }
         return Double.parseDouble(number.replace("rur", ""));
     }
+    
+    public static double parseCurrency(String value, String currency) {
+        Double rate = exchangeRates.get(currency);
+        double result = Double.parseDouble(value);
+        if (rate == null) return result;
+        return result * rate;
+    }
 }
