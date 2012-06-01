@@ -245,4 +245,10 @@ public class DBHelper extends SQLiteOpenHelper {
         c.close();
         return result;
     }
+    
+    public void deleteAll() {       
+        init();
+        db.execSQL("delete from stats");
+        db.execSQL("delete from cards");
+    }
 }

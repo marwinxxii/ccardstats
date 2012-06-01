@@ -145,7 +145,7 @@ public class SberbankService implements NotificationService {
                     m.group(INDEX_BALANCE_CUR));
             double diff = MoneyHelper.parseCurrency(m.group(INDEX_SUM),
                     m.group(INDEX_SUM_CURRENCY));
-            if (!body.startsWith("Operaciya zachisleniya")) {
+            if (!body.startsWith("Операция зачисления")) {
                 diff = -diff;
             }
             return new SmsNotification(m.group(INDEX_CARD), diff, balance, date.getYear() + 1900,

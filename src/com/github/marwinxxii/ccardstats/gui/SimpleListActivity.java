@@ -102,6 +102,10 @@ public class SimpleListActivity extends ListActivity {
         return cache.get(cacheKey);
     }
     
+    protected void clearCache() {
+        cache.clear();
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

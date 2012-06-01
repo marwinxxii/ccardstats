@@ -160,13 +160,22 @@ public class CardListActivity extends SimpleListActivity implements OnItemLongCl
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (!super.onOptionsItemSelected(item)) {
-            if (item.getItemId() == R.id.menu_cards_reread) {
-                if (progressDialog != null)
-                    progressDialog.show();
-                forceUpdate = true;
-                new ReadSmsTask().execute();
-                // TODO rewrite this in another way
-                return true;
+            switch (item.getItemId()) {
+                case R.id.menu_cards_reread:
+                    if (progressDialog != null)
+                        progressDialog.show();
+                    forceUpdate = true;
+                    new ReadSmsTask().execute();
+                    // TODO rewrite this in another way
+                    return true;
+                case R.id.menu_cards_delete:
+                    DBHelper helper = new DBHelper(this);
+                    helper.deleteAll();
+                    helper.close();
+                    clearCache();
+                    mItemsList.removeAllViewsInLayout();
+                    setNoItemsTextId(R.string.list_activity_noitems);
+                    return true;
             }
         } else {
             return true;

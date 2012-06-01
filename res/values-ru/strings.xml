@@ -57,6 +57,7 @@
     <!-- Main menu -->
     <string name="menu_main_prefs">Настройки</string>
     <string name="menu_cards_reread">Перечитать СМС</string>
+    <string name="menu_cards_delete">Удалить данные</string>
     
     <!-- Common -->
     <string name="total">Всего:</string>
