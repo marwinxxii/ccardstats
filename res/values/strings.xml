@@ -56,7 +56,7 @@
     
     <!-- Main menu -->
     <string name="menu_main_prefs">Preferences</string>
-    <string name="menu_main_reread">Reread SMS</string>
+    <string name="menu_cards_reread">Reread SMS</string>
     
     <!-- Common -->
     <string name="total">Total:</string>

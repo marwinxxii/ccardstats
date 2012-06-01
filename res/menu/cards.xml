@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_cards_reread"
-        android:title="@string/menu_main_reread"
+        android:title="@string/menu_cards_reread"
         android:icon="@android:drawable/ic_menu_search"/>
     <item
         android:id="@+id/menu_main_prefs"
