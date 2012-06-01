@@ -22,7 +22,7 @@ public class SberbankService implements NotificationService {
     
     // newest first, oldest last
     private static final ServiceImplementation[] implementations = {
-        new Version2(), new Version1()
+        new Version2(), new Version1(), new Version2RU()
     };
 
     @Override
@@ -115,4 +115,41 @@ public class SberbankService implements NotificationService {
         }
     }
 
+    public static class Version2RU implements ServiceImplementation {
+        
+        private static final int INDEX_SUM = 1;
+        private static final int INDEX_SUM_CURRENCY = 2;
+        private static final int INDEX_CARD = 3;
+        private static final int INDEX_DATE = 4;
+        //private static final int INDEX_TIMEZONE = 5;
+        private static final int INDEX_BALANCE = 6;
+        private static final int INDEX_BALANCE_CUR = 7;
+        
+        private static final Pattern PATTERN = Pattern.compile(
+                //(sum) (currency) (card) (date)(timezone)? (balance) (currency)
+                ".+сумму (\\d{1,9}\\.\\d{2}) (\\w)+\\..+по карте (\\w+).* (\\d{2}\\.\\d{2}\\.\\d{2} \\d{2}:\\d{2})(\\w+)?.+доступно: (\\d{1,9}\\.\\d{2}) (\\w+)\\.$",
+                Pattern.CASE_INSENSITIVE);
+        
+        @Override
+        public SmsNotification recognise(String body) throws IllegalArgumentException {
+            Matcher m = PATTERN.matcher(body);
+            if (!m.matches())
+                throw EXCEPTION;
+            Date date;
+            try {
+                date = sberbankDateFormat.parse(m.group(INDEX_DATE));
+            } catch (ParseException e) {
+                date = DateHelper.Today;
+            }
+            double balance = MoneyHelper.parseCurrency(m.group(INDEX_BALANCE),
+                    m.group(INDEX_BALANCE_CUR));
+            double diff = MoneyHelper.parseCurrency(m.group(INDEX_SUM),
+                    m.group(INDEX_SUM_CURRENCY));
+            if (!body.startsWith("Operaciya zachisleniya")) {
+                diff = -diff;
+            }
+            return new SmsNotification(m.group(INDEX_CARD), diff, balance, date.getYear() + 1900,
+                    date.getMonth() + 1, date.getDate());
+        }
+    }
 }
