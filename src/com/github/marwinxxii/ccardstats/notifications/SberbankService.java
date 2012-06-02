@@ -22,7 +22,7 @@ public class SberbankService implements NotificationService {
     
     // newest first, oldest last
     private static final ServiceImplementation[] implementations = {
-        new Version2(), new Version1(), new Version2RU()
+        new Version2RU(), new Version2(), new Version1()
     };
 
     @Override
@@ -126,8 +126,10 @@ public class SberbankService implements NotificationService {
         private static final int INDEX_BALANCE_CUR = 7;
         
         private static final Pattern PATTERN = Pattern.compile(
-                //(sum) (currency) (card) (date)(timezone)? (balance) (currency)
-                ".+сумму (\\d{1,9}\\.\\d{2}) (\\w)+\\..+по карте (\\w+).* (\\d{2}\\.\\d{2}\\.\\d{2} \\d{2}:\\d{2})(\\w+)?.+доступно: (\\d{1,9}\\.\\d{2}) (\\w+)\\.$",
+                //(sum) (currency) (card) (datetime)(timezone)? (balance) (currency)
+                ".+сумму (\\d{1,9}\\.\\d{2}) (\\w)+\\..+по карте (\\w+) выполнена.+ "
+                + "(\\d{2}\\.\\d{2}\\.\\d{2} \\d{2}:\\d{2})(\\w{2,4})?\\. "
+                + "доступно: (\\d{1,9}\\.\\d{2}) (\\w+)\\.$",
                 Pattern.CASE_INSENSITIVE);
         
         @Override
