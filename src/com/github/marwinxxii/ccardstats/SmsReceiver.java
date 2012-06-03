@@ -20,14 +20,22 @@ public class SmsReceiver extends BroadcastReceiver {
             return;
         Object[] pdus = (Object[]) bundle.get("pdus");
         DBHelper helper = new DBHelper(context);
+        String address = null;
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < pdus.length; i++) {
             SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdus[i]);
-            SmsNotification notif = SmsParser.parse(
-                    sms.getDisplayOriginatingAddress(), sms.getDisplayMessageBody());
-            if (notif != null) {
-                helper.saveCard(notif.card, notif.card, notif.balance);
-                helper.addNotification(notif);
+            if (address == null) {
+                address = sms.getDisplayOriginatingAddress();
+            } else if (!address.equals(sms.getDisplayOriginatingAddress())) {
+                //error
+                return;
             }
+            builder.append(sms.getDisplayMessageBody());
+        }
+        SmsNotification notif = SmsParser.parse(address, builder.toString());
+        if (notif != null) {
+            helper.saveCard(notif.card, notif.card, notif.balance);
+            helper.addNotification(notif);
         }
         CardListActivity.prepareCardsInfo(helper, helper.getCards());
         helper.close();
