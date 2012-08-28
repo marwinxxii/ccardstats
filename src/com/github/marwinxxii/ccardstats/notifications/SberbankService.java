@@ -57,7 +57,8 @@ public class SberbankService implements NotificationService {
             double balance = MoneyHelper.parseCurrency(fields[fields.length - 1].replace(
                     "dostupno:", ""));
             double diff = MoneyHelper.parseCurrency(fields[INDEX_AMOUNT].replace("summa:", ""));
-            if (!fields[INDEX_OPERATION].trim().equals("popolnenie scheta")) {
+            String operation = fields[INDEX_OPERATION].trim();
+            if (!operation.equals("popolnenie scheta") && !operation.equals("beznalichny perevod sredstv") ) {
                 diff = -diff;
             }
             return new SmsNotification(fields[INDEX_CARD].toUpperCase(), diff, balance,
@@ -81,15 +82,15 @@ public class SberbankService implements NotificationService {
         
         private static final int INDEX_SUM = 1;
         private static final int INDEX_SUM_CURRENCY = 2;
-        private static final int INDEX_CARD = 3;
-        private static final int INDEX_DATE = 4;
-        //private static final int INDEX_TIMEZONE = 5;
-        private static final int INDEX_BALANCE = 6;
-        private static final int INDEX_BALANCE_CUR = 7;
+        private static final int INDEX_CARD = 4;
+        private static final int INDEX_DATE = 5;
+        //private static final int INDEX_TIMEZONE = 6;
+        private static final int INDEX_BALANCE = 7;
+        private static final int INDEX_BALANCE_CUR = 8;
         
         private static final Pattern PATTERN = Pattern.compile(
                 //(sum) (currency) (card) (date)(timezone)? (balance) (currency)
-                ".+summu (\\d{1,9}\\.\\d{2}) (\\w)+\\..+po karte (\\w+).* (\\d{2}\\.\\d{2}\\.\\d{2} \\d{2}:\\d{2})(\\w+)?.+dostupno: (\\d{1,9}\\.\\d{2}) (\\w+)\\.$",
+        		".+ na summu (\\d{1,9}\\.\\d{2})\\s?(\\w+)?\\.(.+)? po karte (\\w+) .+\\. (\\d{2}\\.\\d{2}\\.\\d{4} \\d{2}:\\d{2})\\s?(\\w+)?\\. dostupno: (\\d{1,9}\\.\\d{2})\\s?(\\w+)?\\.$",
                 Pattern.CASE_INSENSITIVE);
         
         @Override
@@ -122,14 +123,22 @@ public class SberbankService implements NotificationService {
         private static final int INDEX_CARD = 3;
         private static final int INDEX_DATE = 4;
         //private static final int INDEX_TIMEZONE = 5;
-        private static final int INDEX_BALANCE = 6;
-        private static final int INDEX_BALANCE_CUR = 7;
+        private static final int INDEX_BALANCE = 5;
+        private static final int INDEX_BALANCE_CUR = 6;
         
         private static final Pattern PATTERN = Pattern.compile(
-                //(sum) (currency) (card) (datetime)(timezone)? (balance) (currency)
-                ".+сумму (\\d{1,9}\\.\\d{2}) (\\w)+\\..+по карте (\\w+) выполнена.+ "
-                + "(\\d{2}\\.\\d{2}\\.\\d{2} \\d{2}:\\d{2})(\\w{2,4})?\\. "
-                + "доступно: (\\d{1,9}\\.\\d{2}) (\\w+)\\.$",
+        		//.+ (\d{1,9}\.\d{2})\s?(.{2,10}) .+ (\w{4,8}\d{4}) .+ (\d{2}\.\d{2}\.\d{2} \d{2}:\d{2}).+ (\d{1,9}\.\d{2})\s?(.+)$
+        	 	".+ "
+        		+"(\\d{1,9}\\.\\d{2})" //sum
+        	 	+"\\s?(.{2,10})" //currency
+        		+" .+ "
+        	 	+"(\\w{4,8}\\d{4})" //card
+        		+" .+ "
+        	 	+"(\\d{2}\\.\\d{2}\\.\\d{2} \\d{2}:\\d{2})" //date
+        		+".+ "
+        	 	+"(\\d{1,9}\\.\\d{2})" //balance
+        		+"\\s?(.+)$" //currency
+        		,
                 Pattern.CASE_INSENSITIVE);
         
         @Override
@@ -150,8 +159,10 @@ public class SberbankService implements NotificationService {
             if (!body.startsWith("Операция зачисления")) {
                 diff = -diff;
             }
-            return new SmsNotification(m.group(INDEX_CARD), diff, balance, date.getYear() + 1900,
+            int year = date.getYear() + 1900;
+            if (year < 2012) year += 100;
+            return new SmsNotification(m.group(INDEX_CARD), diff, balance, year,
                     date.getMonth() + 1, date.getDate());
         }
-    }
+    } 
 }

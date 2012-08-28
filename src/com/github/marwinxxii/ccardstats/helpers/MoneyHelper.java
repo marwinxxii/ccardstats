@@ -28,7 +28,7 @@ public class MoneyHelper {
                 return Double.parseDouble(number) * exchangeRates.get(cur);
             }
         }
-        return Double.parseDouble(number.replace("rur", ""));
+        return Double.parseDouble(number.replace("rur", "").replace("rub", ""));
     }
     
     public static double parseCurrency(String value, String currency) {
