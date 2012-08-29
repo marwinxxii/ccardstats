@@ -6,6 +6,7 @@ import com.github.marwinxxii.ccardstats.db.DBHelper;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 public class NotificationReader extends SmsReader {
 
@@ -33,6 +34,7 @@ public class NotificationReader extends SmsReader {
                 continue;
             helper.addNotification(notif);
             cards.put(notif.card, notif.balance);
+            Log.d("nr", notif.diff + "/" + notif.balance);
         }
         for (String name : cards.keySet()) {
             helper.saveCard(name, name, cards.get(name));

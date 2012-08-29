@@ -20,6 +20,8 @@ public class Application extends android.app.Application {
         HashMap<String, Double> rates = new HashMap<String, Double>(2);
         rates.put("usd", Double.parseDouble(prefs.getString("exchange_rates_usd", "30.0")));
         rates.put("eur", Double.parseDouble(prefs.getString("exchange_rates_eur", "39.0")));
+        rates.put("ron", Double.parseDouble(prefs.getString("exchange_rates_ron", "9")));
+        rates.put("huf", Double.parseDouble(prefs.getString("exchange_rates_huf", "0.14")));
         MoneyHelper.setExchangeRates(rates);
         DBHelper.storeMonth = prefs.getBoolean("store_month", DBHelper.storeMonth);
     }

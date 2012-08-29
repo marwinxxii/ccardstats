@@ -11,16 +11,19 @@ import junit.framework.TestCase;
 public class SberbankSMSTestCase extends TestCase {
 
 	static final HashMap<String, Double> rates = new HashMap<String, Double>();
-	static final String card = "VISA5349";
+	static final String card = "VISA1111";
 	static final double diff = 10.0, balance = 10.0;
 	static final int year = 2012, month = 10, day = 1;
-	static final SmsNotification
-		expectedPositive = new SmsNotification(card, diff, balance, year, month, day),
-		expectedNegative = new SmsNotification(card, -diff, balance, year, month, day);
+	static final SmsNotification expectedPositive = new SmsNotification(card,
+			diff, balance, year, month, day),
+			expectedNegative = new SmsNotification(card, -diff, balance, year,
+					month, day);
 
 	static {
-		rates.put("RUR", 1.0);
-		rates.put("EUR", 40.0);
+		rates.put("rur", 1.0);
+		rates.put("eur", 40.0);
+		rates.put("ron", 9.0);
+		rates.put("huf", 0.14);
 	}
 
 	@Override
@@ -85,11 +88,17 @@ public class SberbankSMSTestCase extends TestCase {
 	}
 
 	public void testVersion2_2() {
+		SberbankService.Version2 service = new SberbankService.Version2();
 		String messageBody = String
 				.format("Operaciya zachisleniya na summu %.2f rub. po karte %s vypolnena uspeshno. %02d.%02d.%04d 22:12MSK. Dostupno: %.2f rub.",
 						diff, card, day, month, year, balance);
-		assertEquals(expectedPositive,
-				new SberbankService.Version2().recognise(messageBody));
+		assertEquals(expectedPositive, service.recognise(messageBody));
+
+		// year as 2 digits
+		messageBody = String
+				.format("Operaciya zachisleniya na summu %.2f rub. po karte %s vypolnena uspeshno. %02d.%02d.%02d 12:41. Dostupno: %.2f rub.",
+						diff, card, day, month, 12, balance);
+		assertEquals(expectedPositive, service.recognise(messageBody));
 	}
 
 	public void testVersion2_3() {
@@ -115,7 +124,7 @@ public class SberbankSMSTestCase extends TestCase {
 		assertEquals(expectedNegative,
 				new SberbankService.Version2RU().recognise(messageBody));
 	}
-	
+
 	public void testVersion2Ru_2() {
 		String messageBody = String
 				.format("Оплата услуг на сумму %.2f руб. SBERBANK ONL@IN PLATEZH по карте %s выполнена успешно. %02d.%02d.%02d 19:27. Доступно: %.2f руб.",
@@ -123,12 +132,78 @@ public class SberbankSMSTestCase extends TestCase {
 		assertEquals(expectedNegative,
 				new SberbankService.Version2RU().recognise(messageBody));
 	}
-	
+
 	public void testVersion2Ru_3() {
 		String messageBody = String
 				.format("Операция зачисления на сумму %.2f руб. по карте %s выполнена успешно. %02d.%02d.%02d 19:27. Доступно: %.2f руб.",
 						diff, card, day, month, 12, balance);
 		assertEquals(expectedPositive,
 				new SberbankService.Version2RU().recognise(messageBody));
+	}
+
+	public void testVersion3() {
+		String messageBody = String
+				.format("%s: %02d.%02d.%02d 19:27 покупка на сумму %.2f руб. anywhere выполнена успешно. Доступно: %.2f руб.",
+						card, day, month, 12, diff, balance);
+		assertEquals(expectedNegative,
+				new SberbankService.Version3().recognise(messageBody));
+	}
+
+	public void testVersion3_2() {
+		String messageBody = String
+				.format("%s: %02d.%02d.%02d 19:27МСК оплата услуги Мобильный банк за период 01/01/2011 - 01/01/2012 на сумму %.2f руб. anywhere выполнена успешно. Доступно: %.2f руб.",
+						card, day, month, 12, diff, balance);
+		assertEquals(expectedNegative,
+				new SberbankService.Version3().recognise(messageBody));
+	}
+
+	public void testVersion3_3() {
+		String messageBody = String
+				.format("%s: %02d.%02d.%02d 19:27 выдача наличных на сумму %.2f руб. BANKOMAT 9988 9988 выполнена успешно. Доступно: %.2f руб.",
+						card, day, month, 12, diff, balance);
+		assertEquals(expectedNegative,
+				new SberbankService.Version3().recognise(messageBody));
+	}
+
+	public void testVersion3_4() {
+		SberbankService.Version3 service = new SberbankService.Version3();
+
+		String messageBody = String
+				.format("%s: %02d.%02d.%02d оплата услуги Мобильный банк на сумму %.2f руб. выполнена успешно. Доступно: %.2f руб.",
+						card, day, month, 12, diff, balance);
+		assertEquals(expectedNegative, service.recognise(messageBody));
+
+		messageBody = String
+				.format("%s: %02d.%02d.%02d отмена платы за услугу Мобильный банк на сумму %.2f руб. выполнена успешно. Доступно: %.2f руб.",
+						card, day, month, 12, -diff, balance);
+		assertEquals(expectedPositive, service.recognise(messageBody));
+	}
+
+	public void testVersion3_5() {
+		String messageBody = String
+				.format("%s: %02d.%02d.%02d 19:27 операция зачисления на сумму %.2f руб. выполнена успешно. Доступно: %.2f руб.",
+						card, day, month, 12, diff, balance);
+
+		SberbankService.Version3 service = new SberbankService.Version3();
+
+		assertEquals(expectedPositive, service.recognise(messageBody));
+
+		messageBody = String
+				.format("%s: %02d.%02d.%02d 19:27 операция зачисления на сумму %.2fRON выполнена успешно. Доступно: %.2f руб.",
+						card, day, month, 12, diff, balance);
+		assertEquals(new SmsNotification(card, diff * rates.get("ron"),
+				balance, year, month, day), service.recognise(messageBody));
+
+		messageBody = String
+				.format("%s: %02d.%02d.%02d 19:27 операция зачисления на сумму %.2fHUF выполнена успешно. Доступно: %.2f руб.",
+						card, day, month, 12, diff, balance);
+		assertEquals(new SmsNotification(card, diff * rates.get("huf"),
+				balance, year, month, day), service.recognise(messageBody));
+
+		messageBody = String
+				.format("%s: %02d.%02d.%02d 19:27 покупка на сумму %.2fEUR NORD 5 выполнена успешно. Доступно: %.2f руб.",
+						card, day, month, 12, diff, balance);
+		assertEquals(new SmsNotification(card, -diff * rates.get("eur"), balance,
+				year, month, day), service.recognise(messageBody));
 	}
 }

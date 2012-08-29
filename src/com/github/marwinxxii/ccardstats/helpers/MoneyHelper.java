@@ -32,7 +32,7 @@ public class MoneyHelper {
     }
     
     public static double parseCurrency(String value, String currency) {
-        Double rate = exchangeRates.get(currency);
+        Double rate = exchangeRates.get(currency.toLowerCase().replace(".", ""));
         double result = Double.parseDouble(value);
         if (rate == null) return result;
         return result * rate;
