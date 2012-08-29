@@ -1,4 +1,4 @@
-package tests;
+package com.github.marwinxxii.ccardstats.tests;
 
 import java.util.HashMap;
 
